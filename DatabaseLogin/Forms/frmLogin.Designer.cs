@@ -68,6 +68,7 @@
             // 
             this.btnChooseFile.BackColor = System.Drawing.Color.White;
             this.btnChooseFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnChooseFile.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnChooseFile.Location = new System.Drawing.Point(261, 51);
             this.btnChooseFile.Name = "btnChooseFile";
             this.btnChooseFile.Size = new System.Drawing.Size(26, 20);
