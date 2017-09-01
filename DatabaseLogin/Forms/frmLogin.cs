@@ -349,8 +349,11 @@ namespace DatabaseLogin.Forms
                 {
                     string password = "";
                     string connError = "";
-                    string connString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source = " + 
-                                        Properties.Settings.Default.LastUsedAccdb + "; Persist Security Info = False; Mode = Share Deny None";
+                    string connString = "Provider = Microsoft.ACE.OLEDB.12.0; " + 
+                                        "Data Source = " + 
+                                        Properties.Settings.Default.LastUsedAccdb + "; " + 
+                                        "Persist Security Info = False; " + 
+                                        "Mode = Share Deny None";
                     System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection();
                     conn.ConnectionString = connString;
                     try
