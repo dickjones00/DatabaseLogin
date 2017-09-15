@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoginPostavke));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dgServers = new System.Windows.Forms.DataGridView();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.btnConfigFolder = new System.Windows.Forms.Button();
+            this.dgServers = new System.Windows.Forms.DataGridView();
             this.btnDodaj = new System.Windows.Forms.Button();
             this.btnUkloni = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgServers)).BeginInit();
@@ -57,6 +57,18 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
+            // btnConfigFolder
+            // 
+            this.btnConfigFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnConfigFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnConfigFolder.Image = global::DatabaseLogin.Properties.Resources.folderSettings32;
+            this.btnConfigFolder.Location = new System.Drawing.Point(6, 19);
+            this.btnConfigFolder.Name = "btnConfigFolder";
+            this.btnConfigFolder.Size = new System.Drawing.Size(38, 38);
+            this.btnConfigFolder.TabIndex = 6;
+            this.btnConfigFolder.UseVisualStyleBackColor = true;
+            this.btnConfigFolder.Click += new System.EventHandler(this.btnConfigFolder_Click);
+            // 
             // dgServers
             // 
             this.dgServers.AllowUserToAddRows = false;
@@ -77,6 +89,32 @@
             this.dgServers.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgServers_CellEndEdit);
             this.dgServers.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgServers_CellFormatting);
             this.dgServers.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgServers_EditingControlShowing);
+            // 
+            // btnDodaj
+            // 
+            this.btnDodaj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDodaj.AutoSize = true;
+            this.btnDodaj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDodaj.Image = global::DatabaseLogin.Properties.Resources.dbAddIcon;
+            this.btnDodaj.Location = new System.Drawing.Point(671, 19);
+            this.btnDodaj.Name = "btnDodaj";
+            this.btnDodaj.Size = new System.Drawing.Size(38, 38);
+            this.btnDodaj.TabIndex = 4;
+            this.btnDodaj.UseVisualStyleBackColor = true;
+            this.btnDodaj.Click += new System.EventHandler(this.btnDodaj_Click);
+            // 
+            // btnUkloni
+            // 
+            this.btnUkloni.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUkloni.AutoSize = true;
+            this.btnUkloni.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnUkloni.Image = global::DatabaseLogin.Properties.Resources.dbRemoveIcon;
+            this.btnUkloni.Location = new System.Drawing.Point(715, 19);
+            this.btnUkloni.Name = "btnUkloni";
+            this.btnUkloni.Size = new System.Drawing.Size(38, 38);
+            this.btnUkloni.TabIndex = 5;
+            this.btnUkloni.UseVisualStyleBackColor = true;
+            this.btnUkloni.Click += new System.EventHandler(this.btnUkloni_Click);
             // 
             // btnOK
             // 
@@ -110,44 +148,6 @@
             this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // btnConfigFolder
-            // 
-            this.btnConfigFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnConfigFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnConfigFolder.Image = global::DatabaseLogin.Properties.Resources.folderSettings32;
-            this.btnConfigFolder.Location = new System.Drawing.Point(6, 19);
-            this.btnConfigFolder.Name = "btnConfigFolder";
-            this.btnConfigFolder.Size = new System.Drawing.Size(38, 38);
-            this.btnConfigFolder.TabIndex = 6;
-            this.btnConfigFolder.UseVisualStyleBackColor = true;
-            this.btnConfigFolder.Click += new System.EventHandler(this.btnConfigFolder_Click);
-            // 
-            // btnDodaj
-            // 
-            this.btnDodaj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDodaj.AutoSize = true;
-            this.btnDodaj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDodaj.Image = global::DatabaseLogin.Properties.Resources.dbAddIcon;
-            this.btnDodaj.Location = new System.Drawing.Point(671, 19);
-            this.btnDodaj.Name = "btnDodaj";
-            this.btnDodaj.Size = new System.Drawing.Size(38, 38);
-            this.btnDodaj.TabIndex = 4;
-            this.btnDodaj.UseVisualStyleBackColor = true;
-            this.btnDodaj.Click += new System.EventHandler(this.btnDodaj_Click);
-            // 
-            // btnUkloni
-            // 
-            this.btnUkloni.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUkloni.AutoSize = true;
-            this.btnUkloni.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnUkloni.Image = global::DatabaseLogin.Properties.Resources.dbRemoveIcon;
-            this.btnUkloni.Location = new System.Drawing.Point(715, 19);
-            this.btnUkloni.Name = "btnUkloni";
-            this.btnUkloni.Size = new System.Drawing.Size(38, 38);
-            this.btnUkloni.TabIndex = 5;
-            this.btnUkloni.UseVisualStyleBackColor = true;
-            this.btnUkloni.Click += new System.EventHandler(this.btnUkloni_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::DatabaseLogin.Properties.Resources.sett_db;
@@ -175,7 +175,7 @@
             this.MinimizeBox = false;
             this.Name = "frmLoginPostavke";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login postavke";
+            this.Text = "Login settings";
             this.Load += new System.EventHandler(this.frmLoginPostavke_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

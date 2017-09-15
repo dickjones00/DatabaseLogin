@@ -14,12 +14,14 @@ using System.Xml.Linq;
 namespace DatabaseLogin.Forms
 {
     public partial class frmLogin : Form
-    {        
+    {
         cLoginClass LoginClass = new cLoginClass();
         private Collection<cServer> _servers = new Collection<cServer>();
         private Collection<cBaza> _baze = new Collection<cBaza>();
         OpenFileDialog ofd = new OpenFileDialog();
+
         bool oleDbSelected;
+        bool isBackupFolderSet;
 
         public string ConnectionString()
         {
@@ -64,15 +66,19 @@ namespace DatabaseLogin.Forms
             {
                 pictureBox1.BackgroundImage = Properties.Resources.loginLogo1;
             }
-            
         }
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
             try
             {
+                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.BackupFolder))
+                {
+                    isBackupFolderSet = true;
+                }
+
                 LoginClass.OcistiKontrole();
-                
+
                 var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
 
                 if (File.Exists(xmlFilePath))
@@ -83,7 +89,7 @@ namespace DatabaseLogin.Forms
                 ProvjeriPostavke(LoginClass.NazivServera);
                 string accessDbLastUsed = Properties.Settings.Default.LastUsedAccdb;
                 DodajServere();
-                
+
                 if (string.IsNullOrEmpty(accessDbLastUsed) && (!string.IsNullOrEmpty(LoginClass.NazivServera) || !string.IsNullOrEmpty(LoginClass.NazivBaze)))
                 {
                     int index = cboServer.Items.IndexOf(LoginClass.NazivServera);
@@ -147,7 +153,7 @@ namespace DatabaseLogin.Forms
             catch (Exception)
             {
                 File.Move(xmlFilePath, xmlFilePath + "_bak");
-                MessageBox.Show("Greška prilikom čitanja konfiguracijske datoteke. Napravljena je sigurnosna kopija datoteke:\r\n" + xmlFilePath, 
+                MessageBox.Show("Error while reading configuration file. A backup copy is located in:\r\n" + xmlFilePath,
                                 "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -211,9 +217,34 @@ namespace DatabaseLogin.Forms
             }
         }
 
+        private void OtvoriAccessPostavke()
+        {
+            try
+            {
+                frmLoginAccdbPostavke frm = new frmLoginAccdbPostavke();
+                DialogResult dr = frm.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    isBackupFolderSet = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnPostavke_Click(object sender, EventArgs e)
         {
-            OtvoriPostavke();
+            if (cboServer.Text == "Microsoft Access Database file")
+            {
+                OtvoriAccessPostavke();
+            }
+            else
+            {
+                OtvoriPostavke();
+            }
         }
 
         private void btnOdustani_Click(object sender, EventArgs e)
@@ -227,7 +258,7 @@ namespace DatabaseLogin.Forms
             {
                 if (cboBaza.Text == "")
                 {
-                    MessageBox.Show("Izaberite bazu na koju se spajate!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Select server for connection.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
                 else
@@ -333,7 +364,7 @@ namespace DatabaseLogin.Forms
                     cboServer.SelectedIndex = 0;
                 }
                 cboServer.Items.Add("");
-                cboServer.Items.Add("Microsoft Access Database file (*.accdb)");
+                cboServer.Items.Add("Microsoft Access Database file");
             }
             catch (Exception ex)
             {
@@ -345,86 +376,131 @@ namespace DatabaseLogin.Forms
         {
             if (cboServer.SelectedIndex == cboServer.Items.Count - 1)
             {
-                if (!string.IsNullOrEmpty(Properties.Settings.Default.LastUsedAccdb))
+                if (isBackupFolderSet)
                 {
-                    string password = "";
-                    string connError = "";
-                    string connString = "Provider = Microsoft.ACE.OLEDB.12.0; " + 
-                                        "Data Source = " + 
-                                        Properties.Settings.Default.LastUsedAccdb + "; " + 
-                                        "Persist Security Info = False; " + 
-                                        "Mode = Share Deny None";
-                    System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection();
-                    conn.ConnectionString = connString;
-                    try
+                    if (!string.IsNullOrEmpty(Properties.Settings.Default.LastUsedAccdb))
                     {
-                        conn.Open();
-                    }
-                    catch (Exception ex)
-                    {
-                        connError = ex.Message;
-                    }
-                    finally
-                    {
-                        if (connError == "Not a valid password.")
+                        string password = "";
+                        string connError = "";
+                        string connString = "Provider = Microsoft.ACE.OLEDB.12.0; " +
+                                            "Data Source = " +
+                                            Properties.Settings.Default.LastUsedAccdb + "; " +
+                                            "Persist Security Info = False; " +
+                                            "Mode = Share Deny None";
+                        System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection();
+                        conn.ConnectionString = connString;
+                        try
                         {
-                            frmPsw pass = new frmPsw(true);
-                            pass.ShowDialog();
-                            password = pass.EnteredPassword();
-                            connString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source = " + 
-                                         Properties.Settings.Default.LastUsedAccdb + "; Persist Security Info = False; Mode = Share Deny None;Jet OLEDB:Database Password = " + password;
-                            conn.ConnectionString = connString;
+                            conn.Open();
                         }
-                        else
+                        catch (Exception ex)
                         {
+                            connError = ex.Message;
+                        }
+                        finally
+                        {
+                            if (connError == "Not a valid password.")
+                            {
+                                frmPsw pass = new frmPsw(true);
+                                pass.ShowDialog();
+                                password = pass.EnteredPassword();
+                                connString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source = " +
+                                             Properties.Settings.Default.LastUsedAccdb + 
+                                             "; Persist Security Info = False; Mode = Share Deny None;Jet OLEDB:Database Password = " + 
+                                             password;
+                                conn.ConnectionString = connString;
+                            }
+                            else
+                            {
+                                conn.Close();
+                            }
+
+                        }
+                        try
+                        {
+                            connError = "";
+                            //MessageBox.Show("Ovdje");
+                            conn.Open();
+                            //MessageBox.Show("Prosao");
+                            MessageBox.Show("Connection succesfull!");
+                            LoginClass.ConnString = connString;
+                            btnPrijava.Enabled = true;
                             conn.Close();
+                            btnPrijava.Focus();
+                            try
+                            {
+                                if (!Directory.Exists(Properties.Settings.Default.BackupFolder))
+                                {
+                                    var sd = Properties.Settings.Default.BackupFolder;
+                                    Directory.CreateDirectory(Properties.Settings.Default.BackupFolder);
+                                }
+
+                                var backupFullPath = Path.Combine(Properties.Settings.Default.BackupFolder, 
+                                                     Path.GetFileNameWithoutExtension(conn.DataSource) + 
+                                                     "Backup" +
+                                                     Path.GetExtension(conn.DataSource));
+
+                                if (File.Exists(backupFullPath))
+                                {
+                                    File.Delete(backupFullPath);
+                                }
+                                File.Copy(conn.DataSource, backupFullPath);
+                            }
+                            catch (IOException ex)
+                            {
+                                throw new IOException("Cannot create backup copy", ex);
+                            }
+                            
                         }
-                        
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.Contains("provider is not registered"))
+                            {
+                                MessageBox.Show(ex. Message +
+                                            "\r\n\r\nPossible reasons for this error: Missing installation of " +
+                                            "AccessDatabaseEngine.exe or AccessDatabaseEnginex64.exe " +
+                                            "(depends on ACCDB file version).");
+                            }
+                            else
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+
+                            return;
+                        }
+
+                        Properties.Settings.Default.LastConnBase = "";
+                        Properties.Settings.Default.LastConnServer = cboBaza.SelectedText;
+                        Properties.Settings.Default.LastUsedAccdb = txtChosenDatabaseFile.Text;
+                        Properties.Settings.Default.Save();
+                        cboBaza.Items.Add("Using Microsoft Access database file. Click \"Login\".");
+                        cboBaza.SelectedIndex = 0;
+                        cboBaza.Enabled = false;
                     }
-                    try
+
+                    else
                     {
-                        connError = "";
-                        conn.Open();
-                        MessageBox.Show("Connection succesfull!");
-                        LoginClass.ConnString = connString;
-                        btnPrijava.Enabled = true;
-                        conn.Close();
-                        btnPrijava.Focus();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message +   
-                                        "\r\nPossible reason for this error: Missing installation of " + 
-                                        "AccessDatabaseEngine.exe or AccessDatabaseEnginex64.exe " + 
-                                        "(depends on ACCDB file version)."); 
+                        MessageBox.Show("You must choose Microsoft Access database file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    
-                    Properties.Settings.Default.LastConnBase = "";
-                    Properties.Settings.Default.LastConnServer = cboBaza.SelectedText;
-                    Properties.Settings.Default.LastUsedAccdb = txtChosenDatabaseFile.Text;
-                    Properties.Settings.Default.Save();
-                    cboBaza.Items.Add("Using Microsoft Access database file. Click \"Login\".");
-                    cboBaza.SelectedIndex = 0;
-                    cboBaza.Enabled = false;
                 }
                 else
                 {
-                    MessageBox.Show("You must choose Microsoft Access database file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("Please select a backup folder in settings.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+
             }
             else
             {
                 if (cboServer.Text == string.Empty)
                 {
-                    MessageBox.Show("Izaberite server na koji se spajate!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Select server for connection.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
                 if (ProvjeriPostavke(cboServer.Text) == false)
                 {
-                    MessageBox.Show("U postavkama nije upisan korisnik!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Input username please.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -464,7 +540,7 @@ namespace DatabaseLogin.Forms
                     else
                     {
                         //ne postoji tablica u master bazi znači da nisu definirane postavke
-                        MessageBox.Show("Nisu definirane postavke za korisnika!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("User options not defined.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return;
                     }
 
@@ -487,7 +563,7 @@ namespace DatabaseLogin.Forms
             {
                 if (ex.InnerException.Message == "The network path was not found")
                 {
-                    MessageBox.Show("Nije uspjela veza na bazu, provjerite login podatke u postavkama.", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Connection failed, please check your login information.", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -530,7 +606,7 @@ namespace DatabaseLogin.Forms
                     cboServer.SelectedIndex = 0;
                 }
                 cboServer.Items.Add("");
-                cboServer.Items.Add("Microsoft Access Database file (*.accdb)");
+                cboServer.Items.Add("Microsoft Access Database file");
                 btnSpojiSe.Enabled = true;
             }
             catch (Exception ex)
@@ -553,7 +629,7 @@ namespace DatabaseLogin.Forms
                     LoginClass.BuildConnectionString();
                     if (cboBaza.Text == "")
                     {
-                        MessageBox.Show("Izaberite bazu na koju se spajate!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Select server for connection.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return;
                     }
                     else
@@ -575,14 +651,14 @@ namespace DatabaseLogin.Forms
 
         private void cboServer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboServer.Text == "Microsoft Access Database file (*.accdb)")
+            if (cboServer.Text == "Microsoft Access Database file")
             {
                 txtChosenDatabaseFile.Visible = true;
                 btnChooseFile.Visible = true;
-                btnPostavke.Enabled = false;
+                btnPostavke.Enabled = true;
                 btnPrijava.Enabled = false;
                 oleDbSelected = true;
-                btnSpojiSe.Text = "Test connection";
+                btnSpojiSe.Text = "Validate connection";
             }
             else
             {
@@ -599,7 +675,7 @@ namespace DatabaseLogin.Forms
 
         private void btnChooseFile_Click(object sender, EventArgs e)
         {
-            ofd.Filter = "Access Db (2007/10/13/16)|*.accdb";
+            ofd.Filter = "Access Db (2007/10/13/16)|*.mdb;*.accdb";
             ofd.InitialDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Database");
             ofd.Multiselect = false;
             if (ofd.ShowDialog() == DialogResult.OK)

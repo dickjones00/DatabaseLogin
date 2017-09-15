@@ -31,72 +31,82 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPSW = new System.Windows.Forms.TextBox();
-            this.cmdOK = new System.Windows.Forms.Button();
-            this.cmdCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtPSW);
             this.groupBox1.Location = new System.Drawing.Point(12, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 74);
+            this.groupBox1.Size = new System.Drawing.Size(289, 139);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(78, 19);
+            this.label1.Location = new System.Drawing.Point(96, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Enter password:";
+            this.label1.Text = "Settings password:";
             // 
             // txtPSW
             // 
-            this.txtPSW.Location = new System.Drawing.Point(6, 36);
+            this.txtPSW.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPSW.Location = new System.Drawing.Point(16, 61);
+            this.txtPSW.Margin = new System.Windows.Forms.Padding(13, 3, 13, 3);
             this.txtPSW.Name = "txtPSW";
             this.txtPSW.PasswordChar = '*';
-            this.txtPSW.Size = new System.Drawing.Size(226, 20);
+            this.txtPSW.Size = new System.Drawing.Size(257, 20);
             this.txtPSW.TabIndex = 1;
             // 
-            // cmdOK
+            // btnOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(179, 88);
-            this.cmdOK.Name = "cmdOK";
-            this.cmdOK.Size = new System.Drawing.Size(65, 24);
-            this.cmdOK.TabIndex = 4;
-            this.cmdOK.Text = "OK";
-            this.cmdOK.UseVisualStyleBackColor = true;
-            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(230, 153);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(65, 24);
+            this.btnOK.TabIndex = 4;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // cmdCancel
+            // btnCancel
             // 
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(18, 88);
-            this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(65, 24);
-            this.cmdCancel.TabIndex = 6;
-            this.cmdCancel.TabStop = false;
-            this.cmdCancel.Text = "Cancel";
-            this.cmdCancel.UseVisualStyleBackColor = true;
-            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(18, 153);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(65, 24);
+            this.btnCancel.TabIndex = 6;
+            this.btnCancel.TabStop = false;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // frmPsw
             // 
-            this.AcceptButton = this.cmdOK;
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(263, 123);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(314, 188);
             this.ControlBox = false;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.cmdOK);
-            this.Controls.Add(this.cmdCancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -119,7 +129,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPSW;
-        private System.Windows.Forms.Button cmdOK;
-        private System.Windows.Forms.Button cmdCancel;
+        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
