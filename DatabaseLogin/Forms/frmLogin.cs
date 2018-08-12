@@ -110,6 +110,10 @@ namespace DatabaseLogin.Forms
                     }
                 }
                 btnSpojiSe.Select();
+                if (btnPrijava.Enabled)
+                {
+                    btnPrijava.Select();
+                }
             }
             catch (Exception ex)
             {
@@ -128,6 +132,7 @@ namespace DatabaseLogin.Forms
                 var serverElements = storeElement.Elements().Where(x => x.Name == "cServer");
                 var NazivServera = storeElement.Elements().Where(x => x.Name == "zadnjiServer").FirstOrDefault();
                 var NazivBaze = storeElement.Elements().Where(x => x.Name == "zadnjaBaza").FirstOrDefault();
+
                 if (NazivBaze == null || NazivServera == null)
                 {
                     LoginClass.NazivServera = string.Empty;
@@ -138,6 +143,7 @@ namespace DatabaseLogin.Forms
                     LoginClass.NazivBaze = NazivBaze.Value;
                     LoginClass.NazivServera = NazivServera.Value;
                 }
+
                 foreach (var serverElement in serverElements)
                 {
                     string decryptedPassword = cCryption.DecryptStringAES(serverElement.Element("Psw").Value.ToString(), "darko000");
@@ -626,6 +632,7 @@ namespace DatabaseLogin.Forms
                 }
                 else
                 {
+                    LoginClass.NazivBaze = cboBaza.Text;
                     LoginClass.BuildConnectionString();
                     if (cboBaza.Text == "")
                     {
