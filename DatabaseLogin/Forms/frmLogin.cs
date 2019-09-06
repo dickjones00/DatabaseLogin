@@ -28,6 +28,15 @@ namespace DatabaseLogin.Forms
             return LoginClass.ConnString;
         }
 
+        public string InstallationFolder(string folder = "")
+        {
+            if (!string.IsNullOrWhiteSpace(folder))
+            {
+                txtInstallationFolder.Text = folder;
+            }
+            return txtInstallationFolder.Text;
+        }
+
         private string _connString;
         string xmlFilePath = Path.Combine(Path.GetDirectoryName(Application.UserAppDataPath), "servers.xml");
         public Collection<cServer> Servers
@@ -88,6 +97,7 @@ namespace DatabaseLogin.Forms
 
                 ProvjeriPostavke(LoginClass.NazivServera);
                 string accessDbLastUsed = Properties.Settings.Default.LastUsedAccdb;
+                
                 DodajServere();
 
                 if (string.IsNullOrEmpty(accessDbLastUsed) && (!string.IsNullOrEmpty(LoginClass.NazivServera) || !string.IsNullOrEmpty(LoginClass.NazivBaze)))
@@ -175,6 +185,7 @@ namespace DatabaseLogin.Forms
                     cboServer.Enabled = false;
                     cboBaza.Enabled = false;
                     btnPrijava.Enabled = true;
+                    btnOk.Enabled = true;
                     btnOdustani.Enabled = true;
                 }
                 else
@@ -187,6 +198,7 @@ namespace DatabaseLogin.Forms
                     cboBaza.Items.Clear();
                     btnOdustani.Enabled = true;
                     btnPrijava.Enabled = false;
+                    btnOk.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -207,9 +219,10 @@ namespace DatabaseLogin.Forms
         {
             try
             {
-                frmPsw Psw = new frmPsw();
-                Psw.ShowDialog();
+                frmPsw Psw = new frmPsw("darko" + DateTime.Now.Day.ToString());
+                //Psw.ShowDialog();
                 var file = Psw.SavedFileName();
+                //var file = Path.Combine(Path.GetDirectoryName(Application.UserAppDataPath), "servers.xml");
                 if (File.Exists(xmlFilePath))
                 {
                     FillServersAndSettingsFromXml();
@@ -260,25 +273,26 @@ namespace DatabaseLogin.Forms
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (cboBaza.Text == "")
-                {
-                    MessageBox.Show("Select server for connection.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-                else
-                {
-                    SnimiPostavke();
-                    //SpojiSe();
+            btnPrijava.PerformClick();
+            //try
+            //{
+            //    if (cboBaza.Text == "")
+            //    {
+            //        MessageBox.Show("Select server for connection.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        SnimiPostavke();
+            //        //SpojiSe();
 
-                    this.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //        this.Close();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void SnimiPostavke()
@@ -431,6 +445,7 @@ namespace DatabaseLogin.Forms
                             MessageBox.Show("Connection succesfull!");
                             LoginClass.ConnString = connString;
                             btnPrijava.Enabled = true;
+                            btnOk.Enabled = true;
                             conn.Close();
                             btnPrijava.Focus();
                             try
@@ -494,7 +509,6 @@ namespace DatabaseLogin.Forms
                 {
                     MessageBox.Show("Please select a backup folder in settings.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
             }
             else
             {
@@ -563,6 +577,7 @@ namespace DatabaseLogin.Forms
 
                     cboBaza.Enabled = true;
                     btnPrijava.Enabled = true;
+                    btnOk.Enabled = true;
                 }
             }
             catch (Exception ex)
@@ -642,9 +657,6 @@ namespace DatabaseLogin.Forms
                     else
                     {
                         SnimiPostavke();
-                        //frmMultiset ms = new frmMultiset();
-                        //ms.ConnectionString = _connString;
-                        //ms.Show();
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
@@ -664,6 +676,7 @@ namespace DatabaseLogin.Forms
                 btnChooseFile.Visible = true;
                 btnPostavke.Enabled = true;
                 btnPrijava.Enabled = false;
+                btnOk.Enabled = false;
                 oleDbSelected = true;
                 btnSpojiSe.Text = "Validate connection";
             }
@@ -675,6 +688,7 @@ namespace DatabaseLogin.Forms
                 btnChooseFile.Visible = false;
                 btnPostavke.Enabled = true;
                 btnPrijava.Enabled = false;
+                btnOk.Enabled = false;
                 oleDbSelected = false;
                 btnSpojiSe.Text = "Connect";
             }
@@ -692,7 +706,16 @@ namespace DatabaseLogin.Forms
                 Properties.Settings.Default.LastUsedAccdb = ofd.FileName;
                 Properties.Settings.Default.Save();
                 btnPrijava.Enabled = false;
+                btnOk.Enabled = false;
                 btnSpojiSe.Select();
+            }
+        }
+
+        private void btnFolder_Click(object sender, EventArgs e)
+        {
+            if (fbDialog.ShowDialog() == DialogResult.OK)
+            {
+                txtInstallationFolder.Text = fbDialog.SelectedPath;
             }
         }
     }

@@ -423,6 +423,11 @@ namespace DatabaseLogin.Forms
                 TextBox txt = (TextBox)e.Control;
                 txt.PasswordChar = '*';
             }
+            else
+            {
+                TextBox txt = (TextBox)e.Control;
+                txt.PasswordChar = new char();
+            }
         }
 
         private void btnConfigFolder_Click(object sender, EventArgs e)

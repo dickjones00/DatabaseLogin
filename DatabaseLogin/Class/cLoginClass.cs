@@ -166,7 +166,7 @@ namespace DatabaseLogin.Class
         {
             try
             {
-                sqlBuilder.ConnectTimeout = 60;
+                sqlBuilder.ConnectTimeout = 15;
 
                 //SQL user
 
@@ -182,10 +182,12 @@ namespace DatabaseLogin.Class
                 {
                     sqlBuilder["Initial Catalog"] = _nazivBaze;
                 }
-
+                //TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
                 sqlBuilder["Data Source"] = _nazivServera;
                 sqlBuilder["Persist Security Info"] = true;
-                sqlBuilder["Packet Size"] = 4096;
+                //sqlBuilder["TrustServerCertificate"] = false;
+                //sqlBuilder["ApplicationIntent"] = "ReadWrite";
+                //sqlBuilder["MultiSubnetFailover"] = false;
 
                 _connString = sqlBuilder.ConnectionString;
 

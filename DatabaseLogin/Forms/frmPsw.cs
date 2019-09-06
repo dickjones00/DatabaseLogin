@@ -31,9 +31,12 @@ namespace DatabaseLogin.Forms
         //    }
         //}
 
-        public frmPsw()
+        public frmPsw(string pass = "")
         {
             InitializeComponent();
+            passw = pass;
+            txtPSW.Text = pass;
+            ShowPostavke();
         }
 
         public frmPsw(bool oleDb)

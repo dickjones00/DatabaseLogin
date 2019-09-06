@@ -42,6 +42,11 @@
             this.btnPostavke = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.txtInstallationFolder = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.fbDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnFolder = new System.Windows.Forms.Button();
             this.gbServer.SuspendLayout();
             this.gbBaza.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -178,9 +183,9 @@
             this.btnOdustani.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnOdustani.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnOdustani.Image = global::DatabaseLogin.Properties.Resources.Cancel32;
-            this.btnOdustani.Location = new System.Drawing.Point(532, 259);
+            this.btnOdustani.Location = new System.Drawing.Point(432, 265);
             this.btnOdustani.Name = "btnOdustani";
-            this.btnOdustani.Size = new System.Drawing.Size(94, 47);
+            this.btnOdustani.Size = new System.Drawing.Size(94, 41);
             this.btnOdustani.TabIndex = 2;
             this.btnOdustani.Text = "Cancel";
             this.btnOdustani.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -193,9 +198,9 @@
             this.btnPostavke.BackColor = System.Drawing.Color.White;
             this.btnPostavke.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPostavke.Image = global::DatabaseLogin.Properties.Resources.Settings32;
-            this.btnPostavke.Location = new System.Drawing.Point(10, 259);
+            this.btnPostavke.Location = new System.Drawing.Point(10, 265);
             this.btnPostavke.Name = "btnPostavke";
-            this.btnPostavke.Size = new System.Drawing.Size(94, 47);
+            this.btnPostavke.Size = new System.Drawing.Size(94, 41);
             this.btnPostavke.TabIndex = 5;
             this.btnPostavke.Text = "Settings";
             this.btnPostavke.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -217,6 +222,10 @@
             // mainPanel
             // 
             this.mainPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.mainPanel.Controls.Add(this.btnFolder);
+            this.mainPanel.Controls.Add(this.txtInstallationFolder);
+            this.mainPanel.Controls.Add(this.label1);
+            this.mainPanel.Controls.Add(this.btnOk);
             this.mainPanel.Controls.Add(this.btnOdustani);
             this.mainPanel.Controls.Add(this.gbBaza);
             this.mainPanel.Controls.Add(this.pictureBox1);
@@ -228,6 +237,55 @@
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(640, 320);
             this.mainPanel.TabIndex = 0;
+            // 
+            // txtInstallationFolder
+            // 
+            this.txtInstallationFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtInstallationFolder.Location = new System.Drawing.Point(105, 236);
+            this.txtInstallationFolder.Name = "txtInstallationFolder";
+            this.txtInstallationFolder.Size = new System.Drawing.Size(421, 20);
+            this.txtInstallationFolder.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(10, 240);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Installation folder:";
+            // 
+            // btnOk
+            // 
+            this.btnOk.BackColor = System.Drawing.Color.White;
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnOk.Image = global::DatabaseLogin.Properties.Resources.Accept32;
+            this.btnOk.Location = new System.Drawing.Point(532, 265);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(94, 41);
+            this.btnOk.TabIndex = 2;
+            this.btnOk.Text = "OK";
+            this.btnOk.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // btnFolder
+            // 
+            this.btnFolder.BackColor = System.Drawing.Color.White;
+            this.btnFolder.BackgroundImage = global::DatabaseLogin.Properties.Resources.folderSettings32;
+            this.btnFolder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFolder.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnFolder.Location = new System.Drawing.Point(532, 234);
+            this.btnFolder.Name = "btnFolder";
+            this.btnFolder.Size = new System.Drawing.Size(94, 25);
+            this.btnFolder.TabIndex = 8;
+            this.btnFolder.UseVisualStyleBackColor = false;
+            this.btnFolder.Click += new System.EventHandler(this.btnFolder_Click);
             // 
             // frmLogin
             // 
@@ -257,6 +315,7 @@
             this.gbBaza.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -276,5 +335,10 @@
         private System.Windows.Forms.Button btnChooseFile;
         private System.Windows.Forms.TextBox txtChosenDatabaseFile;
         private System.Windows.Forms.Panel mainPanel;
+        private System.Windows.Forms.TextBox txtInstallationFolder;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FolderBrowserDialog fbDialog;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnFolder;
     }
 }
