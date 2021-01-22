@@ -1,11 +1,8 @@
 ﻿using SqlServerHelper;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -28,7 +25,7 @@ namespace DatabaseLogin.Class
         private string _connString;
         private string _nazivServera;
         private string _user;
-        private string _pass;
+        private string _pass { get; set; }
         private bool _prikazi;
         private string _korisnik;
 
@@ -172,12 +169,19 @@ namespace DatabaseLogin.Class
 
                 sqlBuilder["Integrated Security"] = false;
                 sqlBuilder["User ID"] = _user;
-
-                if (cCryption.IsBase64String(_pass))
-                    sqlBuilder["Password"] = cCryption.DecryptStringAES(_pass, "darko000");                
+                _pass = "medial00";
+                //MessageBox.Show(_pass);
+                if (cCryption.IsBase64String(_pass) && _pass.Length > 15)
+                {
+                    
+                    sqlBuilder["Password"] = cCryption.DecryptStringAES(_pass, "darko000");
+                }
                 else
+                {
+                    //MessageBox.Show(_pass + " Test");
                     sqlBuilder["Password"] = _pass;
-                
+                }
+                //MessageBox.Show("Tests");
                 if (_nazivBaze != string.Empty)
                 {
                     sqlBuilder["Initial Catalog"] = _nazivBaze;

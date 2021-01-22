@@ -283,6 +283,7 @@ namespace DatabaseLogin.Forms
                                 {
                                     if (LoginClass.BuildConnectionString() == true)
                                     {
+                                        
                                         frmBaze baze = new frmBaze();
                                         baze.NazivServera = Convert.ToString(dgServers.Rows[e.RowIndex].Cells["Server"].Value);
                                         baze.User = WindowsIdentity.GetCurrent().Name;
@@ -294,7 +295,7 @@ namespace DatabaseLogin.Forms
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Nisu upisani svi podatci za spajanje na bazu!!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("Nisu upisani svi podaci za spajanje na bazu!!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                     break;
                                 }
                             }

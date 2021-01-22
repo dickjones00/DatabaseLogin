@@ -96,7 +96,7 @@ namespace DatabaseLogin.Forms
 
                 vsBaze.Columns[0].Name = "Baza";
                 vsBaze.Columns[0].HeaderText = "Baza";
-                vsBaze.Columns[0].Width = 300;
+                vsBaze.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 column.HeaderText = "Prikaži";
                 column.Name = "Prikazi";
@@ -127,10 +127,10 @@ namespace DatabaseLogin.Forms
                         " and Name<>'pubs' and name<>'Northwind' " +
                         " and DATABASEPROPERTYEX(Name,'Status')='ONLINE'" +
                         " order by Name ";
-
+                //MessageBox.Show("testc");
                 db.OpenConnection(_connString);
                 SQLReader = db.GetSqlDataReader(mSQL);
-
+                //MessageBox.Show("testdc");
 
                 while (SQLReader.Read())
                 {
