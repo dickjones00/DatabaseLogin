@@ -169,7 +169,7 @@ namespace DatabaseLogin.Class
 
                 sqlBuilder["Integrated Security"] = false;
                 sqlBuilder["User ID"] = _user;
-                _pass = "medial00";
+                //_pass = "medial00";
                 //MessageBox.Show(_pass);
                 if (cCryption.IsBase64String(_pass) && _pass.Length > 15)
                 {
